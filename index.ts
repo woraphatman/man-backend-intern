@@ -1,14 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const port = 3000;
+const port = 3001;
+
+
+
 
 app.use(cors());
 app.use(express.json());
-
-app.get("/", (_req: any, res: { send: (arg0: string) => void }) => {
-  res.send("Hello World!");
-});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
@@ -16,6 +15,10 @@ app.listen(port, () => {
 
 const { MongoClient } = require("mongodb");
 const uri = "mongodb+srv://man:1234@cluster0.dmuor.mongodb.net/test";
+
+app.get("/", (req:any, res:any) => {
+  res.sendFile("index.html", {root: __dirname})
+})
 
 app.post(
   "/movie/create",
@@ -33,13 +36,13 @@ app.post(
     }
   ) => {
     const user = req.body;
+    console.log(user)
     const client = new MongoClient(uri);
     await client.connect();
     await client
       .db("20scoops")
       .collection("movie")
       .insertOne({
-        id: user.id,
         moviename: user.moviename,
         description: user.description,
         image: user.image,

@@ -42,33 +42,106 @@ input {
 
 </style>
 
-<body>
-    <h2 style="text-align:center">Movie</h2>
-    <form action="frminsert.php" method="POST">
-        <label>ProductName*</label><br>
-        <input name="pname" type="text" id="pname" size="40" required><br>
+<body onLoad="getData()">
 
-        <label>Picture*</label><br>
-        <input name="pic" type="text" id="pic" size="40" required><br>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
-        <label>Category*</label><br>
-        <input name="category" type="text" id="category" size="40" required><br>
+    <nav class="navbar navbar-dark bg-mynav">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"></a>
+      </div>
+    </nav>
 
-        <label>ProductDescription*</label><br>
-        <input name="pdest" type="text" id="pdest" size="40" required><br>
+    <div class="container">
+      <div class="d-flex bd-highlight mb-3">
+        <div ><h2 class="text-align:center">Moive</h2></div>
+       
 
-        <label>Price*</label><br>
-        <input name="price" type="text" id="price" min="0" max="9999" required><br>
+        </div>
+      </div>
 
-        <label>QuantityStock*</label><br>
-        <input name="qstock" type="text" id="qstock" min="0" max="999" required><br>
+      <div class="table-responsive"style="align-center">
+        <table class="table">
+          <thead>
+            <tr method="get">
+              <th scope="col">MovieName</th>
+              <th scope="col">Description</th>
+              <th scope="col">Picture</th>
+            </tr>
+          </thead>
+          <tbody id="get">
+            <tr>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div >
+  
+        <label>Movie</label><br>
+        <input name="Name" type="text" id="namemovie" size="40" required><br>
 
+        <label>Description</label><br>
+        <input name="description" type="text" id="description" size="40" required><br>
+
+        <label>Picture</label><br>
+        <input name="picture" type="text" id="picture" size="40" required><br>
+
+        
         <br>
 
-        <input  class="d"type="button" value="Delete">
-        <input class="d"type="submit" value="save">
-        <input class="d"type="reset" value="cancel">
-    </form>
+       
+        <button class="d" onclick="sendValu()" value="save">save</button>
+
+       
+    
+        <script type="text/javascript">
+          const getData = async () => {
+            
+            fetch('http://localhost:3001/movie').then(async(data)=>{
+              return await data.json()
+            }).then((data)=>{
+              console.log(data)
+              const get = document.getElementById("get")
+              console.log(get)
+              data.map((value)=>{
+                let getData = document.createElement("tr")
+                getData.innerHTML = `
+                <th scope="row" >${value.moviename}</th>
+                <th scope="row" >${value.description}</th>
+                <th scope="row" >${value.image}</th>
+                `
+                console.log(value)
+                get.appendChild(getData)
+              })
+             
+            })
+          }
+
+          const sendValu =() => {
+            let moviename = document.getElementById("namemovie").value
+            let description = document.getElementById("description").value
+            let image = document.getElementById("picture").value
+            const data = {
+              moviename,
+              description,
+              image
+            }
+            const get = document.getElementById("get")
+                let getData = document.createElement("tr")
+                getData.innerHTML = `
+                <th scope="row" >${moviename}</th>
+                <th scope="row" >${description}</th>
+                <th scope="row" >${image}</th>
+                `
+                get.appendChild(getData)
+            fetch('http://localhost:3001/movie/create',{method: 'POST',body:JSON.stringify(data),headers:{'Content-Type':'application/json'}}).then((data)=>{
+   
+            })
+          }
+        </script>
+
+    
 </body>
 
 </html>
