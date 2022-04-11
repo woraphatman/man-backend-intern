@@ -8,33 +8,30 @@
     <title>Movie</title>
 </head>
 <style> 
+ table {
+  border: 1px solid ;
+ padding: 50px;
+ 
+ }
+   
 body {
-      background-color: #dddddd;
-      font-family: arial, sans-serif;
-      width: 90%;
-      margin: auto;
+    
+      width: 100%;
       padding: 70px;
-
-
     }
-form {
-    margin-top: 10px;
-      font-family: arial, sans-serif;
-      text-align: center;
-      border-radius: 10px;
-    }
+button.d{
+   border-radius: 10px;
+}
 
 input {
     
-      background-image: white;
       border-radius: 10px;
     }
 
 
-    input.d:hover {
+button.d:hover {
       color: blueviolet;
       background-color: black;
-      text-decoration: none;
     }
 
 
@@ -47,57 +44,56 @@ input {
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
-    <nav class="navbar navbar-dark bg-mynav">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#"></a>
-      </div>
-    </nav>
 
     <div class="container">
-      <div class="d-flex bd-highlight mb-3">
-        <div ><h2 class="text-align:center">Moive</h2></div>
+      <div class="text-center mb-3 width: 100%;
+      padding: 70px;">
+        <div ><h2>Moive</h2></div>
        
 
         </div>
       </div>
 
-      <div class="table-responsive"style="align-center">
+      <div class="table-responsive">
         <table class="table">
           <thead>
             <tr method="get">
               <th scope="col">MovieName</th>
               <th scope="col">Description</th>
               <th scope="col">Picture</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody id="get">
             <tr>
+      
             </tr>
           </tbody>
+          <form>
+            
+          </form>
         </table>
-      </div>
-    </div >
+      
+      </div >
+   
   
         <label>Movie</label><br>
-        <input name="Name" type="text" id="namemovie" size="40" required><br>
+        <input name="Name" type="text" id="namemovie" size="40"  placeholder="MovieName" required><br>
 
         <label>Description</label><br>
-        <input name="description" type="text" id="description" size="40" required><br>
+        <input name="description" type="text" id="description" size="40"  placeholder="MovieDescription" required><br>
 
         <label>Picture</label><br>
-        <input name="picture" type="text" id="picture" size="40" required><br>
+        <input name="image" type="text"   id="image" size="40"   placeholder="Picture URL" required><br>
+        <br>
+        <button  class="d" onclick="sendValu()" value="save">save</button>
 
         
-        <br>
-
-       
-        <button class="d" onclick="sendValu()" value="save">save</button>
-
-       
+      </div >
     
         <script type="text/javascript">
           const getData = async () => {
-            
             fetch('http://localhost:3001/movie').then(async(data)=>{
               return await data.json()
             }).then((data)=>{
@@ -109,8 +105,10 @@ input {
                 getData.innerHTML = `
                 <th scope="row" >${value.moviename}</th>
                 <th scope="row" >${value.description}</th>
-                <th scope="row" >${value.image}</th>
-                `
+                <th scope="row" > <img src="${value.image}" width="100" height="100"/></th>
+                <th scope="row" ><button onclick="deleteValue('${value._id}')" value="delete">Delete</button></th>
+                <th scope="row" ><a class="btn btn-primary" href="./page/updatemovie.html" role="button">Link</a></th>`
+                console.log(value.id)
                 console.log(value)
                 get.appendChild(getData)
               })
@@ -121,7 +119,7 @@ input {
           const sendValu =() => {
             let moviename = document.getElementById("namemovie").value
             let description = document.getElementById("description").value
-            let image = document.getElementById("picture").value
+            let image = document.getElementById("image").value
             const data = {
               moviename,
               description,
@@ -132,16 +130,23 @@ input {
                 getData.innerHTML = `
                 <th scope="row" >${moviename}</th>
                 <th scope="row" >${description}</th>
-                <th scope="row" >${image}</th>
-                `
+                <th scope="row" ><img src="${image}" width="100" height="100" object-fit: "fill"/></th>
+                <th scope="row" ><button medhod:"DELETE">Delete</button></th>
+                <th scope="row" ><button>Update</button></th>`
                 get.appendChild(getData)
             fetch('http://localhost:3001/movie/create',{method: 'POST',body:JSON.stringify(data),headers:{'Content-Type':'application/json'}}).then((data)=>{
-   
+              
             })
           }
+          const deleteValue =(id)=>{
+            console.log(id)
+            
+            fetch('http://localhost:3001/movie/delete',{method: 'DELETE',body:JSON.stringify({_id : id}),headers:{'Content-Type':'application/json'}}).then((data)=>{
+          })
+          }
+        
         </script>
 
-    
 </body>
 
 </html>

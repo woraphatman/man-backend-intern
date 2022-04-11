@@ -17,7 +17,7 @@ const { MongoClient } = require("mongodb");
 const uri = "mongodb+srv://man:1234@cluster0.dmuor.mongodb.net/test";
 
 app.get("/", (req:any, res:any) => {
-  res.sendFile("index.html", {root: __dirname})
+  res.sendFile("./page/index.html", {root: __dirname})
 })
 
 app.post(
