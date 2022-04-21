@@ -6,7 +6,7 @@ export function get (req:Request, res: Response)  {
   }
   
   export function getID (req: Request, res: Response) {
-    res.json(movie.findByid(req.params.id))
+    res.json(movie.find(movie => movie.id === req.params.id))
   }
   
   export function create(req: Request, res: Response) {
