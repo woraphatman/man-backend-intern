@@ -15,7 +15,7 @@ export function get (req:Request, res: Response)  {
   }
   
   export function put(req: Request, res: Response)  {
-    const updateIndex = movie.findIndex(movie.id)
+    const updateIndex = movie.findIndex(movie => movie.id === req.params.id)
     res.json(Object.assign(movie[updateIndex], req.body))
   }
   
