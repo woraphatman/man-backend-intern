@@ -1,4 +1,4 @@
-import  Router  from "../routes/router";
+import  Router  from "../src/routes/router";
 const express = require("express");
 const app = express();
 const port = 3001;
