@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-const movie = require ("../dto/movie.schema")
+const movie = require ("../dto/db")
 
 export function get (req:Request, res: Response)  {
     res.json(movie)
@@ -10,7 +10,7 @@ export function get (req:Request, res: Response)  {
   }
   
   export function create(req: Request, res: Response) {
-    movie.put(req.body)
+    movie.push(req.body)
     res.status(200).json(req.body)
   }
   
