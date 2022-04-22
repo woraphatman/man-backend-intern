@@ -17,7 +17,7 @@ export function get (req:Request, res: Response)  {
     movie.push(req.body)
     console.log(req.headers.ss)
     if(req.headers.Accept != "user1"){
-        return res.json({ error:"You must be Admin"}
+        return res.status(404).send({ error:"You must be Admin"}
         )
   }
   res.status(201).send({
