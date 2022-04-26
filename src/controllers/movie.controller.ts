@@ -1,43 +1,84 @@
 import { Request,Response } from "express";
-const movie = require ("../dto/db")
+const { MongoClient } = require("mongodb");
+const uri = "mongodb+srv://man:1234@cluster0.dmuor.mongodb.net/test";
+export async function get (req:Request, res: Response)
+   {
+    const id = req.params.id;
+    const client = new MongoClient(uri);
+    await client.connect();
+    const user = await client
+      .db("20scoops")
+      .collection("movie")
+      .find({})
+      .toArray();
+    await client.close();
+    res.status(200).send(user);
+  }
 
-export function get (req:Request, res: Response)  {
-    console.log(req.headers)
-    res.status(400)
-  res.json(movie)
+  export async function getID (req: Request, res: Response) {
+      const id = req.params.id;
+      const client = new MongoClient(uri);
+      await client.connect();
+      const user = await client
+        .db("20scoops")
+        .collection("movie")
+        .find({"id": id})
+        .toArray();
+      await client.close();
+      res.status(200).send(user);
+    }
   
   
-  }
-  
-  export function getID (req: Request, res: Response) {
-    res.json(movie.find(movie => movie.id === req.params.id))
-  }
-  
-  export function create(req: Request, res: Response) {
-    movie.push(req.body)
-    console.log(req.headers.ss)
-    if(req.headers.Accept != "user1"){
-        return res.status(404).send({ error:"You must be Admin"}
-        )
-  }
-  res.status(201).send({
-    status: "ok",
-    message: "Create Finish",
-    user: req.body
-  })}
-  
-  export function put(req: Request, res: Response)  {
-    const updateIndex = movie.findIndex(movie => movie.id === req.params.id)
-    res.json(Object.assign(movie[updateIndex], req.body))
-    res.status(202).send({
+  export async function create(req: Request, res: Response) {
+    const user = req.body;
+    console.log(user)
+    const client = new MongoClient(uri);
+    await client.connect();
+    await client
+      .db("20scoops")
+      .collection("movie")
+      .insertOne({
+        moviename: user.moviename,
+        description: user.description,
+        image: user.image,
+      });
+
+    await client.close();
+    res.status(200).send({
       status: "ok",
       message: "Create Finish",
-      user: req.body
-    })}
+      user: user,
+    });
+  }
+
   
-  export function deleteid (req: Request, res: Response)  {
-    const deleteIndex = movie.findIndex(movie => movie.id === req.params.id)
-    movie.splice(deleteIndex, 1)
-    res.status(200).send()
+  export async function put(req: Request, res: Response)  {
+    const user = req.body;
+  const id = user.id;
+  const client = new MongoClient(uri);
+  await client.connect();
+  await client.db("20scoops")
+  .collection("movie").updateOne({'id': id}, {"$set": {
+    id: user.id,
+    moviename: user.moviename,
+    description: user.description,
+    image: user.image,
+  }});
+  await client.close();
+  res.status(200).send({
+    "status": "ok",
+    "message": "Updated Finish",
+    "user": user
+  })
   }
   
+  export async function deleteid (req: Request, res: Response)  {
+    const id = req.body.id;
+    const client = new MongoClient(uri);
+    await client.connect();
+    await client.db('20scoops').collection('movie').deleteOne({'id': id});
+    await client.close();
+    res.status(200).send({
+      "status": "ok",
+      "message": "Deleted Finish"
+    })}
