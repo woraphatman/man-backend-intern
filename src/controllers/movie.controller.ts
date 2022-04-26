@@ -14,19 +14,6 @@ export async function get (req:Request, res: Response)
     await client.close();
     res.status(200).send(user);
   }
-
-  export async function getID (req: Request, res: Response) {
-      const id = req.params.id;
-      const client = new MongoClient(uri);
-      await client.connect();
-      const user = await client
-        .db("20scoops")
-        .collection("movie")
-        .find({"id": id})
-        .toArray();
-      await client.close();
-      res.status(200).send(user);
-    }
   
   
   export async function create(req: Request, res: Response) {
