@@ -2,7 +2,7 @@ const moviemodel = require("../models/movie.model");
 
 exports.findAll  = (req, res) => {
   moviemodel.find()
-    .then((movies) => res.json(movies))
+    .then((Movie) => res.json(Movie))
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
@@ -13,7 +13,7 @@ exports.findAll  = (req, res) => {
 exports.findById  = (req, res) => {
   const id = req.query.id;
   moviemodel.findOne({ _id: id })
-    .then((movies) => res.json(movies))
+    .then((Movie) => res.json(Movie))
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
@@ -23,7 +23,7 @@ exports.add = (req, res) => {
   const payload = req.body;
   const movie = new moviemodel(payload);
   movie
-    .save()
+    .save(res.json(movie))
     .then(res.status(201).end())
     .catch((err) => {
       res.status(500).send({ message: err.message });
@@ -41,6 +41,7 @@ exports.edit = (req, res) => {
 
 exports.delete = (req, res) => {
   const id = req.query.id;
+  console.log(id)
   moviemodel.findByIdAndDelete(id)
     .then(res.status(200).end())
     .catch((err) => {
