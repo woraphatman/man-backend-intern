@@ -48,3 +48,8 @@ exports.delete = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+exports.upload = (req, res) => {
+  console.log(req.files)
+  res.send("hello")
+};
