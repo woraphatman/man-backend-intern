@@ -51,5 +51,6 @@ exports.delete = (req, res) => {
 
 exports.upload = (req, res) => {
   console.log(req.files)
-  res.send("hello")
+  console.log(req.body);
+  res.send(req.files)
 };

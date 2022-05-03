@@ -10,7 +10,7 @@ const multer =require("multer");
 app.use(express.json());
 app.use(Router);
 app.use(express.urlencoded({ extended: true }));
-
+app.use("/upload", express.static('public'));
 const uri = process.env.MONGODB_URI;
 mongoose.connect(uri, {
   useNewUrlParser: true,

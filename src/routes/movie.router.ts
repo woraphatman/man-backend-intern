@@ -2,9 +2,10 @@ import express, { Express } from "express";
 const router = express.Router();
 const movieController = require("../controllers/movie.controller");
 const multer = require("multer");
-var path = require('path')
+const path = require('path')
 
-var storage = multer.diskStorage({
+
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
       console.log("test")
     cb(null, 'uploads/')
@@ -13,7 +14,7 @@ var storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname)) 
   }
 })
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });  
 
 router.get("/movie", movieController.findAll);
 router.get("/movie", movieController.findById);
