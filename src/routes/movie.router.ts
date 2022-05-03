@@ -21,7 +21,7 @@ router.get("/movie", movieController.findById);
 router.post("/movie", movieController.add);
 router.put("/movie", movieController.edit);
 router.delete("/movie", movieController.delete);
-router.post("/upload",upload.array("files"), movieController.upload);
+router.post("/uploads",upload.array("files"), movieController.upload);
 
 module.exports = router;
 
