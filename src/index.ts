@@ -1,4 +1,5 @@
 require("dotenv").config();
+const path = require('path');
 
 const mongoose = require("mongoose");
 const express = require("express");
@@ -10,8 +11,12 @@ const multer =require("multer");
 app.use(express.json());
 app.use(Router);
 app.use(express.urlencoded({ extended: true }));
-app.use("/upload", express.static('public'));
+app.use("/uploads", express.static('public'));
 const uri = process.env.MONGODB_URI;
+
+app.get('/images/:id', function(req, res) {
+  res.sendFile(path.join(__dirname, '/uploads/'+req.params.id));
+});
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
