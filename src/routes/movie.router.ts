@@ -1,8 +1,9 @@
-import express, { Express } from "express";
+import express, { Express, Router } from "express";
 const router = express.Router();
 const movieController = require("../controllers/movie.controller");
 const multer = require("multer");
 const path = require('path')
+const cookieParser = require('cookie-parser')
 
 
 const storage = multer.diskStorage({
@@ -15,7 +16,23 @@ const storage = multer.diskStorage({
   }
 })
 const upload = multer({ storage: storage });  
-
+router.use((req, res, next) => {
+  console.log('Time:', Date.now())
+  next()
+})
+router.use((req, res, next) => {
+  if (!req.headers['x-auth'])
+  return res.json({ error:"You must be Admin"})
+  next()
+})
+router.use(cookieParser())
+router.use('/movie', (req, res, next) => {
+  console.log('Request URL:', req.originalUrl)
+  next()
+}, (req, res, next) => {
+  console.log('Request Type:', req.method)
+  next()
+})
 router.get("/movie", movieController.findAll);
 router.get("/movie", movieController.findById);
 router.post("/movie", movieController.add);
