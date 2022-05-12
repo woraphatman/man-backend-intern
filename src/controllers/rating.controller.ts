@@ -1,4 +1,4 @@
-const ratingmodel = require("../models/rating.model");
+import ratingmodel from "../models/rating.model"
 
 exports.findAll  = (req, res) => {
   ratingmodel.find()
@@ -48,3 +48,4 @@ exports.delete = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+export default  exports;

@@ -1,22 +1,11 @@
-import express, { Express } from "express";
+import express from "express"
 const router = express.Router();
-const ratingController = require("../controllers/rating.controller");
-router.use((req, res, next) => {
-  console.log('Time:', Date.now())
-  next()
-})
+import ratingController from "../controllers/rating.controller"
 
-router.use('/rating', (req, res, next) => {
-  console.log('Request URL:', req.originalUrl)
-  next()
-}, (req, res, next) => {
-  console.log('Request Type:', req.method)
-  next()
-})
-router.use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(500).send(' ERROR !')
-  })
+
+import common, { redate, retype ,requrl} from "../middlewares/middleware.common";
+
+router.use([requrl,retype,redate])
 router.get("/rating", ratingController.findAll);
 router.get("/rating", ratingController.findById);
 router.post("/rating", ratingController.add);
@@ -25,5 +14,4 @@ router.delete("/rating", ratingController.delete);
 
 
 
-module.exports = router;
-
+export default  router;

@@ -1,4 +1,5 @@
-const usermodel = require("../models/user.model");
+
+import usermodel from "../models/user.model"
 
 exports.findAll  = (req, res) => {
   usermodel.find()
@@ -48,3 +49,4 @@ exports.delete = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+export default  exports;

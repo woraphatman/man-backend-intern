@@ -1,4 +1,5 @@
-const adminmodel = require("../models/admin.model");
+import adminmodel from "../models/admin.model"
+
 
 exports.findAll  = (req, res) => {
   adminmodel.find()
@@ -48,3 +49,4 @@ exports.delete = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+export default  exports;

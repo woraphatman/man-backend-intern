@@ -1,4 +1,6 @@
-const moviemodel = require("../models/movie.model");
+
+import moviemodel from "../models/movie.model"
+
 
 exports.findAll  = (req, res) => {
   moviemodel.find()
@@ -54,3 +56,4 @@ exports.upload = (req, res) => {
   console.log(req.body);
   res.send(req.files)
 };
+export default  exports;
