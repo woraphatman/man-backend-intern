@@ -1,5 +1,6 @@
 
 import moviemodel from "../models/movie.model"
+import ImgSchema from "../models/upload.model";
 
 
 exports.findAll  = (req, res) => {
@@ -53,7 +54,14 @@ exports.delete = (req, res) => {
 
 exports.upload = (req, res) => {
   console.log(req.files)
-  console.log(req.body);
-  res.send(req.files)
-};
+  console.log(req.body)
+  const payload = req.body
+  const img = new ImgSchema(payload)
+  img
+  .save(res.send(req.files))
+  .then(res.status(201).end())
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    })
+  };
 export default  exports;
