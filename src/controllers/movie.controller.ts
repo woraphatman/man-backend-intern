@@ -1,6 +1,6 @@
 
 import moviemodel from "../models/movie.model"
-import ImgSchema from "../models/upload.model";
+import ImageSchema from "../models/upload.model";
 
 
 exports.findAll  = (req, res) => {
@@ -52,16 +52,28 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.upload = (req, res) => {
+export const upload = async (req,res ) => {
   console.log(req.files)
-  console.log(req.body)
-  const payload = req.body
-  const img = new ImgSchema(payload)
-  img
-  .save(res.send(req.files))
-  .then(res.status(201).end())
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    })
-  };
+  const payload = req.files
+  const result = []
+  const l_PL = payload.length
+try {
+  for (let i = 0; i <l_PL; i++ ) {
+    let image = new ImageSchema(payload[i])
+    let images = await image.save();
+      result.push(images)
+  }
+}catch(err) {
+    return res.send(err)
+}
+res.json(result)
+};
+  
+  exports.findAllimage  = (req, res) => {
+    ImageSchema.find()
+      .then((Image) => res.json(Image))
+      .catch((err) => {
+        res.status(500).send({ message: err.message });
+      });
+    };
 export default  exports;

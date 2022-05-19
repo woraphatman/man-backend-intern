@@ -12,6 +12,7 @@ router.post("/movie", movieController.add);
 router.put("/movie", movieController.edit);
 router.delete("/movie", movieController.delete);
 router.post("/upload",uploads.array("files"), movieController.upload);
+router.get("/upload", movieController.findAllimage);
 
 export default  router;
 
